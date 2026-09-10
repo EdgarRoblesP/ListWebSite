@@ -30,7 +30,7 @@ export class TaskCounterComponent implements OnInit, OnDestroy {
   }
 
   public get pendingCount(): number {
-    return this.tasks.filter(task => task.completed).length;
+    return this.tasks.filter(task => !task.completed).length;
   }
 
   public get totalCount(): number {

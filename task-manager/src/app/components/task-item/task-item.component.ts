@@ -26,7 +26,8 @@ export class TaskItemComponent {
     }
   }
 
-  public startEdit(event: MouseEvent): void {
+  public startEdit(event?: MouseEvent): void {
+    event?.stopPropagation(); 
     this.isEditing = true;
     this.editTitle = this.task.title;
     setTimeout(() => {
@@ -34,6 +35,7 @@ export class TaskItemComponent {
       this.editInputRef?.nativeElement.select();
     }, 0);
   }
+
 
   public saveEdit(): void {
     if (this.isEditing) {

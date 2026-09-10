@@ -83,16 +83,20 @@ export class TaskService {
       return;
     }
 
-    const task = this.tasks.find(t => t.id === id);
-    if (task) {
-      task.title = trimmedTitle;
-    }
+    this.tasks = this.tasks.map(task => {
+      if (task.id === id) {
+        return { ...task, title: trimmedTitle };
+      }
+      return task;
+    });
+
+    this.tasksSubject.next([...this.tasks]);
   }
 
   public deleteTask(id: number): void {
     const index = this.tasks.findIndex(task => task.id === id);
     if (index !== -1) {
-      this.tasks.splice(index + 1, 1);
+      this.tasks.splice(index, 1);
       this.tasksSubject.next([...this.tasks]);
     }
   }
@@ -102,10 +106,11 @@ export class TaskService {
       case 'pending':
         return tasks.filter(task => !task.completed);
       case 'completed':
-        return tasks.filter(task => !task.completed);
+        return tasks.filter(task => task.completed);
       case 'all':
       default:
         return tasks;
     }
   }
 }
+
