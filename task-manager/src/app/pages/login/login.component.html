@@ -1,0 +1,111 @@
+<!--
+  PANTALLA DE INICIO DE SESION - Frame 1:3 de Figma
+  ---------------------------------------------------------------------------
+  Estructura tomada del diseno, de arriba a abajo:
+    1. Titulo "Inicio de sesion"          (Figma y=328)
+    2. Campo "Correo electronico"          (Figma y=443 etiqueta, y=478 campo)
+    3. Campo "Contrasena"                  (Figma y=543 etiqueta, y=576 campo)
+    4. Enlace "Olvidaste tu contrasena?"   (Figma y=645, alineado a la derecha)
+    5. Boton "Iniciar Sesion"              (Figma y=688, 377x53)
+
+  Las clases .auth-* estan definidas en shared/auth-card.css.
+-->
+<div class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-body">
+
+      <h1 class="auth-title">Inicio de sesion</h1>
+
+      <!-- El atributo novalidate desactiva los mensajes nativos del navegador:
+           la validacion la controla Angular para que el aspecto sea uniforme
+           en todos los navegadores. -->
+      <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- === Campo: correo electronico ============================== -->
+        <div class="auth-field">
+          <label class="field-label" for="email">Correo electronico</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="field-input"
+            [class.is-invalid]="showError('email')"
+            placeholder="Ingrese su correo"
+            autocomplete="email"
+            [attr.aria-invalid]="showError('email')"
+          />
+          <!-- Dos mensajes distintos segun el validador que falle, para que el
+               usuario sepa exactamente que corregir. -->
+          <p class="field-error" *ngIf="showError('email')">
+            <ng-container *ngIf="email.errors?.['required']">
+              El correo electronico es obligatorio.
+            </ng-container>
+            <ng-container *ngIf="email.errors?.['email']">
+              Escribe un correo electronico valido.
+            </ng-container>
+          </p>
+        </div>
+
+        <!-- === Campo: contrasena ====================================== -->
+        <div class="auth-field">
+          <label class="field-label" for="password">Contrasena</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="field-input"
+            [class.is-invalid]="showError('password')"
+            placeholder="Ingrese su contrasena"
+            autocomplete="current-password"
+            [attr.aria-invalid]="showError('password')"
+          />
+          <p class="field-error" *ngIf="showError('password')">
+            La contrasena es obligatoria.
+          </p>
+        </div>
+
+        <!-- === Enlace a la recuperacion =============================== -->
+        <div class="auth-link-right">
+          <a class="auth-link" routerLink="/recuperar">Olvidaste tu contrasena?</a>
+        </div>
+
+        <!-- === Boton de envio =========================================
+             Deshabilitado mientras el formulario sea invalido o haya una
+             peticion en curso. El texto cambia para dar senal de progreso,
+             ya que la peticion tarda 600ms simulados. -->
+        <button type="submit" class="btn-primary" [disabled]="form.invalid || submitting">
+          {{ submitting ? 'Verificando...' : 'Iniciar Sesion' }}
+        </button>
+      </form>
+
+      <!-- === Error global ============================================
+           Credenciales incorrectas. role="alert" hace que los lectores de
+           pantalla lo lean en cuanto aparece. -->
+      <div class="form-error" *ngIf="errorMessage" role="alert">
+        {{ errorMessage }}
+      </div>
+
+      <!-- === Bloque de ayuda: NO forma parte del diseno ===============
+           Existe porque no hay pantalla de registro, asi que sin estas
+           credenciales seria imposible entrar la primera vez.
+
+           SOLO SE MUESTRA EN LOCAL. Ensena un correo real junto a una
+           contrasena valida: en un despliegue publico, cualquiera que abriera
+           esta pagina podria entrar con esa cuenta. Ver showDemoCredentials
+           en el componente.
+
+           Se borra entero en cuanto haya registro de usuarios real. -->
+      <div class="demo-notice" *ngIf="showDemoCredentials">
+        <span class="demo-notice-label">Modo demo</span>
+        <p class="demo-notice-text">
+          No hay registro de usuarios todavia. Usa esta cuenta de prueba:
+        </p>
+        <p class="demo-notice-text">
+          Correo: <strong>{{ demoEmail }}</strong><br />
+          Contrasena: <strong>{{ demoPassword }}</strong>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>

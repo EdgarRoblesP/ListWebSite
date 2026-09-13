@@ -1,0 +1,321 @@
+/* =============================================================================
+   PATRON "TARJETA DE AUTENTICACION" - hoja de estilos compartida
+   -----------------------------------------------------------------------------
+   PASO 2 del plan de implementacion.
+
+   Los tres frames de Figma (1:3 Inicio de sesion, 9:18 Recuperar contrasena,
+   9:42 Restablecer contrasena) son la misma pantalla con distinto contenido:
+   fondo azul marino, tarjeta blanca centrada, titulo grande, campos de 53px de
+   alto y un boton primario a todo el ancho del campo.
+
+   Por eso el patron se define UNA sola vez aqui y los tres componentes lo
+   incluyen en su arreglo styleUrls:
+
+       styleUrls: ['../../shared/auth-card.css', './login.component.css']
+
+   Angular compila una copia encapsulada de esta hoja para cada componente que
+   la declara, asi que no hay fugas de estilos entre componentes y a la vez no
+   se duplica el codigo fuente. El archivo propio de cada componente queda solo
+   para lo que es exclusivo de esa pantalla.
+
+   NOTA SOBRE FIDELIDAD AL DISENO: las MEDIDAS (posiciones y tamanos) son las
+   reales del archivo de Figma. La paleta viene de los tokens oficiales del
+   equipo, definidos en styles.css junto con la implementacion de subtareas.
+   Este archivo no escribe ni un color literal: todo pasa por variables, para
+   que un cambio de paleta no deje colores sueltos del tema anterior.
+   ========================================================================== */
+
+/* --- Contenedor de pagina ---------------------------------------------------
+   En Figma la tarjeta esta centrada horizontalmente (su centro coincide con el
+   centro del frame de 1440px) y arranca en y=223 de 1024px de alto, es decir
+   aproximadamente centrada tambien en vertical. */
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1rem;
+}
+
+/* --- La tarjeta -------------------------------------------------------------
+   Figma: 625px de ancho en los frames 9:18 y 9:42, 553px en el 1:3.
+   Se unifica con la variable --auth-card-width (640px). */
+.auth-card {
+  width: 100%;
+  max-width: var(--auth-card-width);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 4rem 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* --- Columna de contenido ---------------------------------------------------
+   El truco para reproducir el padding lateral del diseno sin romper la version
+   movil: la tarjeta lleva un padding pequeno y es este contenedor interno el
+   que limita el ancho a 420px y se centra. Resultado en escritorio:
+   (640 - 420) / 2 = 110px de aire a cada lado, practicamente los 102px que
+   mide el diseno. En pantallas estrechas el limite de 420px deja de aplicar
+   y el contenido simplemente se adapta. */
+.auth-body {
+  max-width: var(--auth-field-width);
+  margin: 0 auto;
+}
+
+/* --- Titulo -----------------------------------------------------------------
+   Figma: alto de caja 44px. Con 36px de fuente y line-height 44px coincide.
+   En los tres frames la caja de texto esta centrada respecto a la tarjeta. */
+.auth-title {
+  font-size: 2.25rem;
+  line-height: 2.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  margin: 0;
+}
+
+/* --- Parrafo descriptivo ----------------------------------------------------
+   Solo lo usa el frame 9:18. Figma: 446px de ancho y 44px de alto, o sea dos
+   lineas de texto de ~15px. */
+.auth-subtitle {
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: var(--auth-text-width);
+  margin: 1.25rem auto 0;
+}
+
+/* --- Formulario -------------------------------------------------------------
+   Figma separa los bloques campo+etiqueta unos 45px entre si. */
+.auth-form {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* --- Campo ------------------------------------------------------------------
+   Cada .auth-field agrupa su etiqueta, su input y su mensaje de error, para
+   que el hueco del error no descuadre el resto del formulario. */
+.auth-field {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Figma: etiquetas alineadas al borde izquierdo del campo, caja de 19px de
+   alto (~15px de fuente) y 32px por encima del input. */
+.field-label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.field-input {
+  width: 100%;
+  height: var(--auth-control-height);
+  padding: 0 1rem;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-field);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.field-input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.field-input:focus {
+  border-color: var(--color-accent);
+}
+
+/* Estado de error: se aplica solo cuando el campo ya fue tocado por el usuario
+   (la clase la decide la plantilla), nunca al cargar la pantalla. */
+.field-input.is-invalid {
+  border-color: var(--color-danger);
+}
+
+.field-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mensaje de validacion de un campo concreto. */
+.field-error {
+  font-size: 0.8125rem;
+  color: var(--color-danger);
+  margin-top: 0.375rem;
+}
+
+/* --- Boton primario --------------------------------------------------------
+   Figma: 53px de alto y el mismo ancho que los campos, con el texto centrado.
+   Lo comparten "Iniciar Sesion" (1:3), "Enviar instrucciones" (9:18) y
+   "Restablecer contrasena" (9:42). */
+.btn-primary {
+  width: 100%;
+  height: var(--auth-control-height);
+  background: var(--color-accent);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-field);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+/* El boton se desactiva mientras el formulario sea invalido o haya una
+   peticion en curso. Mismo patron que el boton "Agregar" de las tareas. */
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Enlaces ---------------------------------------------------------------- */
+.auth-link {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* Fila del enlace "Olvidaste tu contrasena?": en el frame 1:3 aparece alineado
+   al borde derecho del campo de contrasena. */
+.auth-link-right {
+  text-align: right;
+  margin-top: -0.75rem;
+}
+
+/* Pie de la tarjeta: enlace "Volver a iniciar sesion" de los frames 9:18/9:42. */
+.auth-footer {
+  text-align: center;
+  margin-top: 1.75rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* --- Mensaje de error global -----------------------------------------------
+   Para errores que no pertenecen a un campo, como credenciales incorrectas.
+   role="alert" en la plantilla hace que los lectores de pantalla lo anuncien. */
+.form-error {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-field);
+  color: var(--color-danger);
+  font-size: 0.875rem;
+}
+
+/* Equivalente en verde, para confirmaciones. */
+.form-success {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+  border-radius: var(--radius-field);
+  color: var(--color-success);
+  font-size: 0.875rem;
+}
+
+/* --- Bloque de confirmacion -------------------------------------------------
+   Sustituye al formulario dentro de la misma tarjeta una vez enviada la
+   solicitud (frame 16:81, que en Figma es el dibujo de una bandeja de Gmail;
+   aqui se representa con un icono de sobre). */
+.auth-confirmation {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.auth-confirmation-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--color-accent);
+}
+
+.auth-confirmation-text {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.auth-confirmation-text strong {
+  color: var(--color-text);
+}
+
+/* --- Bloque "Modo demo" -----------------------------------------------------
+   NO FORMA PARTE DEL DISENO. Es el andamio que sustituye al correo electronico
+   mientras el proyecto no tiene servidor: muestra en pantalla el enlace que en
+   una aplicacion real llegaria al buzon del usuario. Va deliberadamente
+   marcado en amarillo y con su etiqueta, para que nadie lo confunda con
+   interfaz definitiva. Al conectar el backend, se borra este bloque completo.
+   ========================================================================== */
+.demo-notice {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px dashed var(--color-warning-border);
+  border-radius: var(--radius-field);
+  background: var(--color-warning-bg);
+  text-align: left;
+}
+
+.demo-notice-label {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-warning);
+  margin-bottom: 0.5rem;
+}
+
+.demo-notice-text {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.demo-notice-link {
+  display: inline-block;
+  word-break: break-all;
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+}
+
+/* --- Adaptacion a pantallas estrechas --------------------------------------
+   El diseno de Figma solo define la version de 1440px. Por debajo de 640px se
+   reduce el padding de la tarjeta y el tamano del titulo para que el contenido
+   no quede aplastado contra los bordes. */
+@media (max-width: 640px) {
+  .auth-card {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .auth-title {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+}

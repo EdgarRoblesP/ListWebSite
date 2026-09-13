@@ -3,9 +3,9 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 0.85rem;
-  background: #18181b;
+  background: #F8F9FF;
   border-radius: 8px;
-  border: 1px solid #27272a;
+  border: 1px solid #E0E7FF;
 }
 
 .counter-badge {
@@ -15,24 +15,25 @@
 }
 
 .counter-label {
-  color: #a1a1aa;
+  color: var(--text-primary);
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .counter-value {
-  background: #2563eb;
-  color: #ffffff;
+  background: var(--pending);
+  color: var(--text-primary);
   padding: 0.1rem 0.55rem;
   border-radius: 6px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.8rem;
+  border: 1px solid #E6C200;
 }
 
 .counter-total {
-  color: #71717a;
+  color: var(--text-secondary);
   font-size: 0.8rem;
   font-weight: 500;
-  border-left: 1px solid #27272a;
+  border-left: 1px solid var(--card-border);
   padding-left: 0.75rem;
 }

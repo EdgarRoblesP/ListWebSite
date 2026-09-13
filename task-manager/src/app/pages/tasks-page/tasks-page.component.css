@@ -1,0 +1,118 @@
+/* =============================================================================
+   ESTILOS DE LA PANTALLA DE TAREAS
+   -----------------------------------------------------------------------------
+   Contenido de la antigua app.component.css, con dos cambios:
+     1. Los colores en hexadecimal se sustituyeron por las variables definidas
+        en styles.css (PASO 2), para que la app de tareas y las pantallas de
+        autenticacion compartan una sola paleta.
+     2. Se anadieron las reglas de .session-bar, que es el bloque nuevo.
+   ========================================================================== */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem 1rem;
+}
+
+.main-card {
+  width: 100%;
+  max-width: 680px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* --- Barra de sesion (nueva) ----------------------------------------------- */
+.session-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.session-user {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.session-user strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-field);
+  color: var(--color-text-muted);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-logout:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+/* --- Resto: identico a la version anterior --------------------------------- */
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+@media (min-width: 640px) {
+  .app-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0.25rem 0 0 0;
+}
+
+.section-input {
+  margin-bottom: 1.75rem;
+}
+
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-heading h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.section-list {
+  min-height: 180px;
+}

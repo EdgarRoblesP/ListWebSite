@@ -1,0 +1,22 @@
+/* =============================================================================
+   ESTILOS PROPIOS DE LA PANTALLA DE INICIO DE SESION (Frame 1:3)
+   -----------------------------------------------------------------------------
+   Casi todo viene de shared/auth-card.css. Aqui solo queda lo especifico de
+   esta pantalla.
+
+   Que el archivo este practicamente vacio es la senal de que el PASO 2
+   (sistema de diseno compartido) cumplio su objetivo.
+   ========================================================================== */
+
+/* El diseno del frame 1:3 usa una tarjeta de 553px, mas estrecha que los
+   625px de los frames de recuperacion. Se respeta esa diferencia sobrescribiendo
+   solo aqui la variable, en lugar de duplicar la regla .auth-card completa. */
+.auth-card {
+  --auth-card-width: 560px;
+}
+
+/* Este texto en negrita aparece dentro del bloque "Modo demo". */
+.demo-notice-text strong {
+  color: var(--color-text);
+  font-weight: 600;
+}

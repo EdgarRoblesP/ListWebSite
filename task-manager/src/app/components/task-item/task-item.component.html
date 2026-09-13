@@ -64,4 +64,133 @@
       </div>
     </div>
   </ng-template>
+
+  <!-- ── Progreso subtareas (FR-06) ── -->
+  <div
+    class="subtask-progress"
+    *ngIf="subtaskCount > 0"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="progress-header">
+      <span class="progress-label">{{ subtaskCount }} subtareas</span>
+      <span class="progress-count">{{ completedSubtaskCount }} / {{ subtaskCount }}</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" [style.width.%]="subtaskProgress"></div>
+    </div>
+  </div>
+
+  <!-- ── Lista de subtareas (FR-02, FR-03) ── -->
+  <ul
+    class="subtask-list"
+    *ngIf="task.subtasks && task.subtasks.length > 0"
+    (click)="$event.stopPropagation()"
+  >
+    <li
+      *ngFor="let sub of task.subtasks"
+      class="subtask-item"
+      [class.completed]="sub.completed"
+      [class.editing-subtask]="editingSubtaskId === sub.id"
+    >
+      <!-- Modo visualización subtarea -->
+      <div *ngIf="editingSubtaskId !== sub.id; else editSubtaskTemplate" class="subtask-content">
+        <label class="checkbox-container subtask-checkbox" (click)="$event.stopPropagation()">
+          <input
+            type="checkbox"
+            [checked]="sub.completed"
+            (change)="onToggleSubtask(sub, $event)"
+          />
+          <span class="custom-checkbox subtask-custom-checkbox"></span>
+        </label>
+
+        <span class="subtask-title" (dblclick)="startEditSubtask(sub, $event)">{{ sub.title }}</span>
+
+        <div class="subtask-actions">
+          <button
+            type="button"
+            class="action-btn edit-btn subtask-action-btn"
+            (click)="startEditSubtask(sub, $event)"
+            title="Editar subtarea"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="action-btn delete-btn subtask-action-btn"
+            (click)="onDeleteSubtask(sub.id, $event)"
+            title="Eliminar subtarea"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modo edición subtarea (FR-07) -->
+      <ng-template #editSubtaskTemplate>
+        <div class="subtask-edit-wrapper" (click)="$event.stopPropagation()">
+          <input
+            #editSubtaskInput
+            type="text"
+            class="edit-input subtask-edit-input"
+            [(ngModel)]="editSubtaskTitle"
+            (keyup.enter)="saveEditSubtask()"
+            (keyup.escape)="cancelEditSubtask()"
+          />
+          <div class="edit-actions">
+            <button type="button" class="btn-save btn-save-sm" (click)="saveEditSubtask()">Guardar</button>
+            <button type="button" class="btn-cancel btn-cancel-sm" (click)="cancelEditSubtask()">Cancelar</button>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+
+  <!-- ── Zona Agregar Subtarea (SSD Estado inicial / expandido) ── -->
+  <div class="subtask-add-zone" (click)="$event.stopPropagation()">
+    <!-- Estado inicial: botón -->
+    <button
+      *ngIf="!isAddingSubtask"
+      type="button"
+      class="btn-add-subtask"
+      (click)="toggleAddSubtask($event)"
+    >
+      <span class="btn-add-subtask-icon">+</span>
+      Agregar subtarea
+    </button>
+
+    <!-- Estado expandido: input + Agregar -->
+    <div *ngIf="isAddingSubtask" class="subtask-input-group">
+      <input
+        #subtaskInput
+        type="text"
+        class="subtask-input-field"
+        [(ngModel)]="newSubtaskTitle"
+        placeholder="Agregar subtarea..."
+        (keyup.enter)="onAddSubtask()"
+        (keydown)="onSubtaskInputKeydown($event)"
+        autocomplete="off"
+      />
+      <button
+        type="button"
+        class="btn-subtask-add"
+        [disabled]="!newSubtaskTitle.trim()"
+        (click)="onAddSubtask()"
+      >
+        Agregar
+      </button>
+      <button
+        type="button"
+        class="btn-subtask-cancel"
+        (click)="toggleAddSubtask($event)"
+        title="Cerrar"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
 </li>

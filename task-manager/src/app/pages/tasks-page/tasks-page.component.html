@@ -1,6 +1,24 @@
+<!--
+  PANTALLA DE TAREAS
+  ---------------------------------------------------------------------------
+  Copia literal de la antigua app.component.html, con un unico anadido: la
+  fila .session-bar de arriba, que muestra quien esta conectado y permite
+  cerrar la sesion.
+-->
 <div class="app-container">
 
   <main class="main-card">
+
+    <!-- NUEVO: barra de sesion. Antes no existia porque no habia login. -->
+    <div class="session-bar">
+      <span class="session-user">
+        Sesion de <strong>{{ currentUser()?.name }}</strong>
+      </span>
+      <button type="button" class="btn-logout" (click)="onLogout()">
+        Cerrar sesion
+      </button>
+    </div>
+
     <header class="app-header">
       <div>
         <h1 class="header-title">{{ appTitle }}</h1>

@@ -1,16 +1,16 @@
 .filter-group {
   display: inline-flex;
-  background: #18181b;
+  background: #F3F4F6;
   padding: 0.25rem;
   border-radius: 8px;
-  border: 1px solid #27272a;
+  border: 1px solid var(--card-border);
   gap: 0.25rem;
 }
 
 .filter-btn {
   padding: 0.35rem 0.75rem;
   background: transparent;
-  color: #a1a1aa;
+  color: var(--text-secondary);
   border: none;
   border-radius: 6px;
   font-size: 0.825rem;
@@ -20,11 +20,13 @@
 }
 
 .filter-btn:hover {
-  color: #fafafa;
+  color: var(--text-primary);
+  background: var(--color-white);
 }
 
 .filter-btn.active {
-  background: #27272a;
-  color: #ffffff;
+  background: var(--interactive);
+  color: var(--color-white);
   font-weight: 600;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
 }

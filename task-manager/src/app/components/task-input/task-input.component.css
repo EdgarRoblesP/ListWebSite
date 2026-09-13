@@ -11,21 +11,22 @@
 .task-input-field {
   flex: 1;
   padding: 0.65rem 0.85rem;
-  background: #18181b;
-  border: 1px solid #27272a;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: 8px;
-  color: #fafafa;
+  color: var(--text-primary);
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .task-input-field:focus {
-  border-color: #2563eb;
+  border-color: var(--interactive);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .task-input-field::placeholder {
-  color: #71717a;
+  color: var(--text-secondary);
 }
 
 .btn-add {
@@ -33,18 +34,18 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.65rem 1.1rem;
-  background: #2563eb;
-  color: #ffffff;
+  background: var(--interactive);
+  color: var(--color-white);
   border: none;
   border-radius: 8px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .btn-add:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: var(--interactive-hover);
 }
 
 .btn-add:disabled {
