@@ -70,12 +70,20 @@
         </div>
 
         <!-- === Boton de envio =========================================
-             Deshabilitado mientras el formulario sea invalido o haya una
-             peticion en curso. El texto cambia para dar senal de progreso,
-             ya que la peticion tarda 600ms simulados. -->
+              Deshabilitado mientras el formulario sea invalido o haya una
+              peticion en curso. El texto cambia para dar senal de progreso,
+              ya que la peticion tarda 600ms simulados. -->
         <button type="submit" class="btn-primary" [disabled]="form.invalid || submitting">
           {{ submitting ? 'Verificando...' : 'Iniciar Sesion' }}
         </button>
+
+        <!-- === Enlace a registro ======================================
+             Exigido por el contrato: debajo del boton "Iniciar sesion"
+             aparece "¿No tienes una cuenta? Registrate" con "Registrate"
+             en azul como hipervinculo hacia /registro. -->
+        <p class="auth-footer">
+          ¿No tienes una cuenta? <a class="auth-link" routerLink="/registro">Registrate</a>
+        </p>
       </form>
 
       <!-- === Error global ============================================

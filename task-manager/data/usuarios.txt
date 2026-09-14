@@ -1,0 +1,3 @@
+# Formato: email|passwordHash(SHA-256)|name
+edgarrobles076@gmail.com|51459c23ca91ebce271449dd8b5c26751c99039c2ae4c628067898ca0e104039|Usuario Demo
+

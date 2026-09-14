@@ -1,0 +1,26 @@
+/* =============================================================================
+   ESTILOS PROPIOS DE "REGISTRO"
+   Todo el patron viene de shared/auth-card.css; este archivo solo corrige lo
+   especifico de la pantalla de registro.
+   ========================================================================== */
+.btn-demo-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.btn-demo-link:hover { text-decoration: none; }
+.demo-notice-url {
+  margin-top: 0.75rem;
+  font-family: ui-monospace, 'Cascadia Code', 'Courier New', monospace;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: var(--color-text-subtle);
+  word-break: break-all;
+}
+.auth-footer-separator { margin: 0 0.5rem; color: var(--color-border); }
+.auth-confirmation-note {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-subtle);
+}

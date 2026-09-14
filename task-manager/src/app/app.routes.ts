@@ -3,6 +3,8 @@ import { authGuard, guestGuard } from './guards/auth.guard';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { CompleteRegistrationComponent } from './pages/complete-registration/complete-registration.component';
 import { TasksPageComponent } from './pages/tasks-page/tasks-page.component';
 
 export const routes: Routes = [
@@ -28,6 +30,19 @@ export const routes: Routes = [
     path: 'restablecer',
     component: ResetPasswordComponent,
     title: 'Restablecer contrasena'
+  },
+
+  /* Registro: nueva vista exigida por el contrato. */
+  {
+    path: 'registro',
+    component: RegisterComponent,
+    canActivate: [guestGuard],
+    title: 'Registro'
+  },
+  {
+    path: 'completar-registro',
+    component: CompleteRegistrationComponent,
+    title: 'Completar registro'
   },
 
   /* La aplicacion original. Ahora exige sesion. */

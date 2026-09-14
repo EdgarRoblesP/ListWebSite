@@ -1,0 +1,66 @@
+<!-- Pantalla completar registro: 4 estados (validating, tokenError, done, form) -->
+<div class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-body">
+
+      <!-- Estado 1: validando token -->
+      <ng-container *ngIf="validating">
+        <h1 class="auth-title">Validando enlace...</h1>
+        <p class="auth-subtitle">Comprobando que tu enlace de registro sigue siendo válido.</p>
+      </ng-container>
+
+      <!-- Estado 2: token inválido -->
+      <ng-container *ngIf="!validating && tokenError">
+        <h1 class="auth-title">Enlace no válido</h1>
+        <p class="auth-subtitle">{{ tokenError }}</p>
+        <div class="form-error" role="alert">{{ tokenError }}</div>
+        <p class="auth-footer">
+          <a class="auth-link" routerLink="/registro">Solicitar nuevo enlace</a>
+          <span class="auth-footer-separator">&middot;</span>
+          <a class="auth-link" routerLink="/login">Volver a iniciar sesión</a>
+        </p>
+      </ng-container>
+
+      <!-- Estado 3: completado -->
+      <ng-container *ngIf="!validating && !tokenError && done">
+        <h1 class="auth-title">¡Cuenta creada!</h1>
+        <p class="auth-subtitle">Tu cuenta para <strong>{{ accountEmail }}</strong> ya está lista. Inicia sesión con tu nueva contraseña.</p>
+        <button type="button" class="btn-primary btn-done" (click)="onGoToLogin()">Ir a iniciar sesión</button>
+      </ng-container>
+
+      <!-- Estado 4: formulario -->
+      <ng-container *ngIf="!validating && !tokenError && !done">
+        <h1 class="auth-title">Configura tu contraseña</h1>
+        <p class="auth-subtitle">Elige una contraseña de al menos {{ minPasswordLength }} caracteres para <strong>{{ accountEmail }}</strong>.</p>
+
+        <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <div class="auth-field">
+            <label class="field-label" for="reg-password">Contraseña</label>
+            <input id="reg-password" type="password" formControlName="password" class="field-input" [class.is-invalid]="showError('password')" placeholder="Mínimo 8 caracteres" autocomplete="new-password" [attr.aria-invalid]="showError('password')" />
+            <p class="field-error" *ngIf="showError('password')">
+              <ng-container *ngIf="password.errors?.['required']">La contraseña es obligatoria.</ng-container>
+              <ng-container *ngIf="password.errors?.['minlength']">Debe tener al menos {{ minPasswordLength }} caracteres.</ng-container>
+            </p>
+            <p class="field-hint" *ngIf="!showError('password')">Mínimo {{ minPasswordLength }} caracteres.</p>
+          </div>
+
+          <div class="auth-field">
+            <label class="field-label" for="reg-confirm">Confirmar contraseña</label>
+            <input id="reg-confirm" type="password" formControlName="confirmPassword" class="field-input" [class.is-invalid]="showError('confirmPassword') || showMismatchError()" placeholder="Repite tu contraseña" autocomplete="new-password" [attr.aria-invalid]="showError('confirmPassword') || showMismatchError()" />
+            <p class="field-error" *ngIf="showError('confirmPassword')">Confirma tu contraseña.</p>
+            <p class="field-error" *ngIf="showMismatchError()">Las contraseñas no coinciden.</p>
+          </div>
+
+          <button type="submit" class="btn-primary" [disabled]="form.invalid || submitting">
+            {{ submitting ? 'Guardando...' : 'Crear cuenta' }}
+          </button>
+        </form>
+
+        <div class="form-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</div>
+
+        <p class="auth-footer"><a class="auth-link" routerLink="/login">Volver a iniciar sesión</a></p>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

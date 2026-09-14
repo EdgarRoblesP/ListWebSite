@@ -1,0 +1,80 @@
+<!--
+  PANTALLA DE REGISTRO
+  Reutiliza el patron auth-shell/auth-card/auth-body de Login.
+  Titulo "Registro", campo email y boton "Confirmar" azul (.btn-primary).
+-->
+<div class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-body">
+
+      <!-- A) FORMULARIO -->
+      <ng-container *ngIf="!sent">
+        <h1 class="auth-title">Registro</h1>
+        <p class="auth-subtitle">Crea tu cuenta para empezar a organizar tus tareas.</p>
+
+        <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <div class="auth-field">
+            <label class="field-label" for="register-email">Ingresa tu correo electrónico</label>
+            <input
+              id="register-email"
+              type="email"
+              formControlName="email"
+              class="field-input"
+              [class.is-invalid]="showEmailError()"
+              placeholder="Ingrese su correo"
+              autocomplete="email"
+              [attr.aria-invalid]="showEmailError()"
+            />
+            <p class="field-error" *ngIf="showEmailError()">
+              <ng-container *ngIf="email.errors?.['required']">El correo electrónico es obligatorio.</ng-container>
+              <ng-container *ngIf="email.errors?.['email']">Escribe un correo electrónico válido.</ng-container>
+            </p>
+          </div>
+
+          <button type="submit" class="btn-primary" [disabled]="form.invalid || submitting">
+            {{ submitting ? 'Enviando...' : 'Confirmar' }}
+          </button>
+        </form>
+
+        <div class="form-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</div>
+
+        <p class="auth-footer">
+          ¿Ya tienes cuenta? <a class="auth-link" routerLink="/login">Inicia sesión</a>
+        </p>
+      </ng-container>
+
+      <!-- B) CONFIRMACION -->
+      <ng-container *ngIf="sent">
+        <div class="auth-confirmation">
+          <div class="auth-confirmation-icon" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m2 7 10 7 10-7" />
+            </svg>
+          </div>
+          <h1 class="auth-title">Revisa tu correo</h1>
+          <p class="auth-confirmation-text">
+            Si <strong>{{ sentToEmail }}</strong> no estaba registrado, te enviamos un correo para
+            configurar tu contraseña. El enlace caduca en 15 minutos.
+          </p>
+          <p class="auth-confirmation-note" *ngIf="emailSent">Abre el enlace en este mismo navegador.</p>
+        </div>
+
+        <!-- Bloque demo: solo cuando el correo no salió (ng serve) -->
+        <div class="demo-notice" *ngIf="demoToken && !emailSent">
+          <span class="demo-notice-label">Modo demo</span>
+          <p class="demo-notice-text">No se pudo enviar el correo desde este entorno. Este es el enlace que habría recibido:</p>
+          <a class="btn-primary btn-demo-link" routerLink="/completar-registro" [queryParams]="{ token: demoToken }">Abrir enlace de registro</a>
+          <p class="demo-notice-url">{{ demoRegisterUrl }}</p>
+        </div>
+
+        <p class="auth-footer">
+          <button type="button" class="auth-link" (click)="onTryAnotherEmail()">Usar otro correo</button>
+          <span class="auth-footer-separator">&middot;</span>
+          <a class="auth-link" routerLink="/login">Volver a iniciar sesión</a>
+        </p>
+      </ng-container>
+
+    </div>
+  </div>
+</div>
